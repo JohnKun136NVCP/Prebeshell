@@ -1,4 +1,5 @@
 #!/bin/bash
+trap  ''  2  20
 
 #juego gato solo para dos personas
 jug1="o"
