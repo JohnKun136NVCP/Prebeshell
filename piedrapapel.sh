@@ -1,4 +1,5 @@
 #!/bin/bash
+trap  ''  2  20
 
 echo "Este juego es piedra papel tijera rata spock"
 
