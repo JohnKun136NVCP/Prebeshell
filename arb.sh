@@ -1,37 +1,40 @@
 #!/bin/bash
 #Código tomado de https://blog.niklasottosson.com/linux/bash-script-simulating-the-tree-command/
-olddir=$PWD;
-declare -i dirdepth=0;
-function listfiles {
+directorio=$PWD;
+declare -i dird=0;
+
+function listaarch {
         cd "$1";
-        for file in *
+        for fichero in *
         do
-                for ((i=0; $i < $dirdepth; i++))
+                for ((i=0; $i < $dird; i++))
                 do
-                        ##Tab between each level
                         printf "\t";
                 done
-                ## Print directories with brackets ([directory])
-                if [ -d "$file" ]
+                
+                if [ -d "$fichero" ]
                 then
-                        printf "\1[$file]\n";
+                        printf "\033[0;31m\1[$fichero]\033[0m\n";
                 else
-                        printf "$file\e[0m\n";
+                		
+                        printf "└──\e[1;34m$fichero\e[0m\n";
                 fi
 
-                ##Work our way thru the system recursively
-                if [ -d "$file" ]
+                
+                if [ -d "$fichero" ]
                 then
-                        dirdepth=$dirdepth+1;
-                        listfiles "$file";
+
+                        dird=$dird+1;
+                        listaarch "$fichero";
                         cd ..;
                 fi
         done
-        ##Done with this directory - moving on to next file
-        let dirdepth=$dirdepth-1;
+        
+        let dird=$dird-1;
 }
-listfiles "$1";
-##Go back to where we started
-cd $olddir;
-unset i dirdepth;
+
+listaarch "$1";
+
+cd $directorio;
+unset i dird;
 
