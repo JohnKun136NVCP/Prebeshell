@@ -10,5 +10,5 @@ echo "creaditos------------Muestra los creditos de los programadores"
 echo "piedrapapel---------Juego de piedra, papel, tijeras, spok"
 echo "gato-----------------Juego de gato"
 echo "prebplayer-----------Biblioteca y reproduccion de musica"
- 
+echo "salir----------------comando para salir del proyecto prolin"
  
