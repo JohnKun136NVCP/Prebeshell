@@ -1,43 +1,37 @@
 #!/bin/bash
-#Código tomado de;
-#https://github.com/kddeisz/tree/blob/master/tree.sh
-shopt -s nullglob
-dir_count=0
-file_count=0
+#Código tomado de https://blog.niklasottosson.com/linux/bash-script-simulating-the-tree-command/
+olddir=$PWD;
+declare -i dirdepth=0;
+function listfiles {
+        cd "$1";
+        for file in *
+        do
+                for ((i=0; $i < $dirdepth; i++))
+                do
+                        ##Tab between each level
+                        printf "\t";
+                done
+                ## Print directories with brackets ([directory])
+                if [ -d "$file" ]
+                then
+                        printf "\1[$file]\n";
+                else
+                        printf "$file\e[0m\n";
+                fi
 
-traverse() {
-  dir_count=$(($dir_count + 1))
-  local directory=$1
-  local prefix=$2
-
-  local children=($directory/*)
-  local child_count=${#children[@]}
-
-  for idx in "${!children[@]}"; do 
-    local child=${children[$idx]// /\\ }
-    child=${child##*/}
-
-    local child_prefix="│   "
-    local pointer="├── "
-
-    if [ $idx -eq $((child_count - 1)) ]; then
-      pointer="└── "
-      child_prefix="    "
-    fi
-
-    echo "${prefix}${pointer}$child"
-    [ -d "$directory/$child" ] &&
-      traverse "$directory/$child" "${prefix}$child_prefix" ||
-      file_count=$((file_count + 1))
-  done
+                ##Work our way thru the system recursively
+                if [ -d "$file" ]
+                then
+                        dirdepth=$dirdepth+1;
+                        listfiles "$file";
+                        cd ..;
+                fi
+        done
+        ##Done with this directory - moving on to next file
+        let dirdepth=$dirdepth-1;
 }
-
-root="."
-[ "$#" -ne 0 ] && root="$1"
-echo $root
-
-traverse $root ""
-echo
-echo "$(($dir_count - 1)) directories, $file_count files"
-shopt -u nullglob
+listfiles "$1";
+##Go back to where we started
+cd $olddir;
+unset i dirdepth;
 
