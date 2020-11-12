@@ -2,8 +2,11 @@
 trap  ''  2  20
 
 clear 
+
 echo -e "\e[36mINFORMACION DEL SISTEMA\e[0m"
 echo ""
+echo -e "\e[36mLa terminal se esta ejecutando en: \e[0m"
+command pwd
 echo -e "\e[36mUsuario actual: \e[0m$(whoami)"
 echo -e "-----------------------------\e[36mUsuarios conecados :\e[0m----------------------------"
 command  w -s -f -h
@@ -15,4 +18,4 @@ command free -h -t
 
 echo ""
 echo "presione una tecla para continual"
-read -e x
+read x
