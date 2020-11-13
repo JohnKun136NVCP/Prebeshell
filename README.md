@@ -1,2 +1,2 @@
 # TerminalLinux
-Hacer la terminal con bash
+Simulación de una terminal linux solo con algunos comandos.
